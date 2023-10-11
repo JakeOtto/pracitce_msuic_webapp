@@ -26,7 +26,25 @@ def all_albums():
     print(type(albums))
     
     return albums
-    return render_template("index.html", albums=albums)
+
+@app.route('/artists', methods=['GET'])
+def all_artists():
+    connection = get_flask_database_connection(app)
+    album_repo = Albums_Repository(connection)
+    artists = album_repo.get_artists()
+    print (artists)
+    return artists
+
+@app.route('/artists', methods=['POST'])
+def new_artist():
+    title = "NA"
+    artist_name = request.form ['artist_name']
+    release_year = 999
+    connection = get_flask_database_connection(app)
+    album_repo = Albums_Repository(connection)
+    album_repo.add_artist(artist_name)
+    return f" added  - {title},{artist_name},{release_year}"
+
 
 # This imports some more example routes for you to see how they work
 # You can delete these lines if you don't need them.

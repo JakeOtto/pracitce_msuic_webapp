@@ -2,7 +2,7 @@
 
 
 def test_add_album(db_connection,web_client):
-    db_connection.seed("music_webapp_db_sql.sql")
+    db_connection.seed("music_webapp_db.sql")
 
     response = web_client.post("/add", data=
                             {"title":"Voyage",
@@ -11,10 +11,18 @@ def test_add_album(db_connection,web_client):
     
     assert response.status_code == 200
 
+def test_get_artists(db_connection,web_client):
+    db_connection.seed("music_webapp_db.sql")
+    response = web_client.get("/artists")
+    assert response.status_code == 200
 
+def test_post_artists(db_connection,web_client):
+    db_connection.seed("music_webapp_db.sql")
+    response = web_client.post("/artists", data = {"artist_name":"Sample Artist"})
+    assert response.status_code == 200
 
 def test_get_all_albums(db_connection,web_client):
-    db_connection.seed("music_webapp_db_sql.sql")
+    db_connection.seed("music_webapp_db.sql")
     response = web_client.get("/albums")
     assert response.status_code == 200
 

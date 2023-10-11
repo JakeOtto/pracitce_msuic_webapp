@@ -11,12 +11,21 @@ class Albums_Repository:
         for row in rows:
             album = Album(row['id'], row['title'], row['release_year'], row['artist_name'] )
             # print(json.dumps(album))
-            albums_list.append(album)
+            albums_list.append(album.__dict__())
             print(albums_list)
             print("_______")
             print(type(albums_list))
         return albums_list
     
+    def get_artists(self):
+        artists = self._connection.execute('SELECT artist_name FROM albums')
+        print (type(artists))
+        return artists
+    
+    def add_artist(self, new_album_artist_name):
+        self._connection.execute('INSERT INTO albums (title, artist_name,release_year) VALUES (%s, %s, %s)', ["NA", new_album_artist_name, 9999])
+        return None
+
 
     def find(self, album_id):
         rows = self._connection.execute('SELECT * FROM albums WHERE id = %s', [album_id])
